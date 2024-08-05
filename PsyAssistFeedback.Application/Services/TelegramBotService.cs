@@ -12,11 +12,12 @@ public class TelegramBotService : ITelegramBotService
     private const string BOT_TOKEN = "7140894509:AAHoEOREZL9cBZdwwZ7FG5EvcrBEIzj8hQY";
     private const string HELLO_MESSAGE = "Добрый день! Чтобы оставить отзыв, введите, пожалуйста, в одном сообщении номер заявки (не обязательно, если ваш никнейм в Телеграме совпадает с указанным в анкете) и текст отзыва...";
 
-    private static readonly ITelegramBotClient _bot = new TelegramBotClient(BOT_TOKEN);
+    private readonly ITelegramBotClient _bot;
     private readonly IBus _bus;
 
     public TelegramBotService(IBus bus)
     {
+        _bot = new TelegramBotClient(BOT_TOKEN);
         _bus = bus;
     }
 
