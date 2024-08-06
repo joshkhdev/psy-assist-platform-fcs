@@ -84,6 +84,6 @@ public class Startup
             endpoints.MapControllers();
         });
 
-        telegramBotService.Run();
+        telegramBotService.RunBot();
     }
 }

@@ -5,7 +5,9 @@ namespace PsyAssistFeedback.Application.Interfaces.Service
 {
     public interface ITelegramBotService
     {
-        void Run();
+        void InitializeBot();
+
+        void RunBot();
 
         Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken);
 
