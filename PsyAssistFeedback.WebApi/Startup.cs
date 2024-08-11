@@ -1,4 +1,3 @@
-using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using PsyAssistFeedback.Application.Interfaces.Repository;
 using PsyAssistFeedback.Application.Interfaces.Service;
@@ -6,7 +5,7 @@ using PsyAssistFeedback.Application.Mapping;
 using PsyAssistFeedback.Application.Services;
 using PsyAssistFeedback.Persistence;
 using PsyAssistFeedback.Persistence.Repositories;
-using PsyAssistFeedback.WebApi.Consumers;
+using PsyAssistFeedback.WebApi.Extensions;
 using PsyAssistFeedback.WebApi.Mapping;
 using PsyAssistFeedback.WebApi.Middlewares;
 
@@ -39,27 +38,8 @@ public class Startup
             options.EnableSensitiveDataLogging();
         });
 
-        services.AddMassTransit(x =>
-        {
-            x.AddConsumer<CreateFeedbackConsumer>();
-            x.AddConsumer<GetFeedbacksConsumer>().Endpoint(e => e.Name = "feedback-service");
-
-            x.UsingRabbitMq((context, cfg) =>
-            {
-                var rabbitUrl = Configuration["IntegrationSettings:RabbitUrl"];
-
-                cfg.Host(rabbitUrl, h =>
-                {
-                    h.Username("guest");
-                    h.Password("guest");
-                });
-
-                cfg.ConfigureEndpoints(context);
-            });
-        });
-
-        services.AddSingleton<IFeedbackMessagesService, FeedbackMessagesService>();
-        services.AddSingleton<ITelegramBotService, TelegramBotService>();
+        services.AddRabbitMqServices(Configuration);
+        services.AddTelegramBot();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ITelegramBotService telegramBotService)
