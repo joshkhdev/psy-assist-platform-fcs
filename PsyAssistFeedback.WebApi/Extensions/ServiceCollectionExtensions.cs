@@ -11,9 +11,13 @@ namespace PsyAssistFeedback.WebApi.Extensions
             => services.AddMassTransit(x =>
             {
                 x.AddConsumer<CreateFeedbackConsumer>();
+
                 var serviceAddress = configuration["IntegrationSettings:RabbitFeedbackServiceUrl"];
-                var serviceName = new Uri(serviceAddress).Segments.LastOrDefault();
-                x.AddConsumer<GetFeedbacksConsumer>().Endpoint(e => e.Name = serviceName);
+                if (serviceAddress != null)
+                {
+                    var serviceName = new Uri(serviceAddress).Segments.LastOrDefault() ?? string.Empty;
+                    x.AddConsumer<GetFeedbacksConsumer>().Endpoint(e => e.Name = serviceName);
+                }
 
                 x.UsingRabbitMq((context, cfg) =>
                 {
