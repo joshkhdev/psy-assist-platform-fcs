@@ -42,6 +42,7 @@ public class Startup
         services.AddMassTransit(x =>
         {
             x.AddConsumer<CreateFeedbackConsumer>();
+            x.AddConsumer<GetFeedbacksConsumer>().Endpoint(e => e.Name = "feedback-service");
 
             x.UsingRabbitMq((context, cfg) =>
             {
@@ -57,6 +58,7 @@ public class Startup
             });
         });
 
+        services.AddSingleton<IFeedbackMessagesService, FeedbackMessagesService>();
         services.AddSingleton<ITelegramBotService, TelegramBotService>();
     }
 

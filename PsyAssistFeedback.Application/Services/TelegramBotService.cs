@@ -15,13 +15,18 @@ public class TelegramBotService : ITelegramBotService
 
     private readonly IConfiguration _configuration;
     private readonly IBus _bus;
+    private readonly IFeedbackMessagesService _feedbackMessagesService;
 
     private ITelegramBotClient? _bot;
 
-    public TelegramBotService(IConfiguration configuration, IBus bus)
+    public TelegramBotService(
+        IConfiguration configuration, 
+        IBus bus,
+        IFeedbackMessagesService feedbackMessagesService)
     {
         _bus = bus;
         _configuration = configuration;
+        _feedbackMessagesService = feedbackMessagesService;
 
         InitializeBot();
     }
@@ -87,19 +92,9 @@ public class TelegramBotService : ITelegramBotService
             return;
         }
 
-        await PublishFeedbackAsync(message, update, cancellationToken);
+        await _feedbackMessagesService.PublishFeedbackAsync(message, update, cancellationToken);
 
         await botClient.SendTextMessageAsync(message.Chat, $"Спасибо, {update.Message.From.Username}, Ваш отзыв отправлен!");
-    }
-
-    public async Task PublishFeedbackAsync(Message message, Update update, CancellationToken cancellationToken)
-    {
-        var request = new CreateFeedbackDto
-        {
-            Telegram = update.Message.From.Username,
-            FeedbackText = message.Text
-        };
-        await _bus.Publish(request, cancellationToken);
     }
 
     public async Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)

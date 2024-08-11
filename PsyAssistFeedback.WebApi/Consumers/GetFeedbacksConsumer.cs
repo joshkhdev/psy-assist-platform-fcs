@@ -1,18 +1,17 @@
 ﻿using AutoMapper;
 using MassTransit;
-using PsyAssistFeedback.Application.Dto.Feedback;
 using PsyAssistFeedback.Application.Interfaces.Service;
 using PsyAssistPlatform.Messages;
 
 namespace PsyAssistFeedback.WebApi.Consumers
 {
-    public class CreateFeedbackConsumer :
-        IConsumer<FeedbackMessage>
+    public class GetFeedbacksConsumer :
+        IConsumer<FeedbacksMessage>
     {
         private readonly IFeedbackService _feedbackService;
         private readonly IMapper _mapper;
 
-        public CreateFeedbackConsumer(
+        public GetFeedbacksConsumer(
             IFeedbackService feedbackService, 
             IMapper mapper)
         {
@@ -20,13 +19,18 @@ namespace PsyAssistFeedback.WebApi.Consumers
             _mapper = mapper;
         }
 
-        public async Task Consume(ConsumeContext<FeedbackMessage> context)
+        public async Task Consume(ConsumeContext<FeedbacksMessage> context)
         {
-            var feedback = _mapper.Map<CreateFeedbackDto>(context.Message);
-
             var cts = new CancellationTokenSource();
             var cancellationToken = cts.Token;
-            await _feedbackService.CreateFeedbackAsync(feedback, cancellationToken);
+
+            var feedbacks = await _feedbackService.GetFeedbacksAsync(cancellationToken);
+            var feedbackMessage = new FeedbacksMessage 
+            { 
+                Items = _mapper.Map<IEnumerable<FeedbackMessage>>(feedbacks) 
+            };
+
+            await context.RespondAsync(feedbackMessage);
         }
     }
 }
