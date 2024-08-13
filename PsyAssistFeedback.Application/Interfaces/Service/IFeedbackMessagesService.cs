@@ -4,5 +4,5 @@ namespace PsyAssistFeedback.Application.Interfaces.Service;
 
 public interface IFeedbackMessagesService
 {
-    Task PublishFeedbackAsync(Message message, Update update, CancellationToken cancellationToken);
+    Task PublishFeedbackAsync(Message message, CancellationToken cancellationToken);
 }

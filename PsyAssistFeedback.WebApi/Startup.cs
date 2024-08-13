@@ -5,9 +5,12 @@ using PsyAssistFeedback.Application.Mapping;
 using PsyAssistFeedback.Application.Services;
 using PsyAssistFeedback.Persistence;
 using PsyAssistFeedback.Persistence.Repositories;
+using PsyAssistFeedback.WebApi.Contracts;
 using PsyAssistFeedback.WebApi.Extensions;
 using PsyAssistFeedback.WebApi.Mapping;
 using PsyAssistFeedback.WebApi.Middlewares;
+using PsyAssistFeedback.WebApi.Services;
+using PsyAssistPlatform.WebApi.Middlewares;
 
 namespace PsyAssistFeedback.WebApi;
 
@@ -31,6 +34,9 @@ public class Startup
         services.AddScoped(typeof(IRepository<>), typeof(EfCoreRepository<>));
         services.AddScoped<IFeedbackService, FeedbackService>();
 
+        services.AddHttpContextAccessor();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
+
         services.AddDbContext<PsyAssistContext>(options =>
         {
             options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
@@ -44,6 +50,7 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ITelegramBotService telegramBotService)
     {
+        app.UseMiddleware<LoggingHandlerMiddleware>();
         app.UseMiddleware<ExceptionHandlerMiddleware>();
 
         if (env.IsDevelopment())

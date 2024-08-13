@@ -3,6 +3,7 @@ using MassTransit;
 using PsyAssistFeedback.Application.Dto.Feedback;
 using PsyAssistFeedback.Application.Interfaces.Service;
 using PsyAssistPlatform.Messages;
+using Serilog;
 
 namespace PsyAssistFeedback.WebApi.Consumers
 {
@@ -22,6 +23,8 @@ namespace PsyAssistFeedback.WebApi.Consumers
 
         public async Task Consume(ConsumeContext<FeedbackMessage> context)
         {
+            Log.Information($"Message from telegram bot consumed");
+
             var feedback = _mapper.Map<CreateFeedbackDto>(context.Message);
 
             var cts = new CancellationTokenSource();

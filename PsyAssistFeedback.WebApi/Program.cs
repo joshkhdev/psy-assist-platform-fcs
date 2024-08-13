@@ -1,4 +1,6 @@
 using PsyAssistFeedback.Persistence;
+using Serilog;
+using Serilog.Events;
 
 namespace PsyAssistFeedback.WebApi;
 
@@ -6,6 +8,14 @@ public class Program
 {
     public static void Main(string[] args)
     {
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+            .WriteTo.File(
+                $"{Environment.CurrentDirectory}/Logs/PsyAssistPlatformWebApiLog-.txt",
+                rollingInterval: RollingInterval.Day,
+                retainedFileCountLimit: 30
+            ).CreateLogger();
+
         var host = CreateHostBuilder(args).Build();
 
         using var scope = host.Services.CreateScope();
@@ -17,7 +27,7 @@ public class Program
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex);
+            Log.Fatal(ex, "An error ocurred while app initialization");
         }
 
         host.Run();
@@ -25,5 +35,6 @@ public class Program
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
+            .UseSerilog()
             .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
 }

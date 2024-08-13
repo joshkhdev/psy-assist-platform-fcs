@@ -2,6 +2,7 @@
 using MassTransit;
 using PsyAssistFeedback.Application.Interfaces.Service;
 using PsyAssistPlatform.Messages;
+using Serilog;
 
 namespace PsyAssistFeedback.WebApi.Consumers
 {
@@ -21,6 +22,8 @@ namespace PsyAssistFeedback.WebApi.Consumers
 
         public async Task Consume(ConsumeContext<FeedbacksMessage> context)
         {
+            Log.Information($"Message from feedback controller consumed");
+
             var cts = new CancellationTokenSource();
             var cancellationToken = cts.Token;
 
@@ -29,6 +32,8 @@ namespace PsyAssistFeedback.WebApi.Consumers
             { 
                 Items = _mapper.Map<IEnumerable<FeedbackMessage>>(feedbacks) 
             };
+
+            Log.Information($"Message to feedback controller has been sent: {feedbackMessage.Items.Count()} items");
 
             await context.RespondAsync(feedbackMessage);
         }

@@ -30,6 +30,7 @@ public class FeedbackService : IFeedbackService
     public async Task<IFeedback?> GetFeedbackByIdAsync(int id, CancellationToken cancellationToken)
     {
         var feedback = await _feedbackRepository.GetByIdAsync(id, cancellationToken);
+
         if (feedback is null)
             throw new NotFoundException($"Feedback with Id [{id}] not found");
 
@@ -39,15 +40,11 @@ public class FeedbackService : IFeedbackService
     public async Task<IFeedback> CreateFeedbackAsync(ICreateFeedback feedbackData, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(feedbackData.Telegram))
-        {
             throw new IncorrectDataException("Telegram cannot be empty");
-        }
 
         if (string.IsNullOrWhiteSpace(feedbackData.FeedbackText))
-        {
             throw new IncorrectDataException(
                 "Feedback text cannot be null or empty");
-        }
 
         var createdFeedback = _applicationMapper.Map<Feedback>(feedbackData);
         createdFeedback.FeedbackDate = DateTime.Now.ToUniversalTime();
