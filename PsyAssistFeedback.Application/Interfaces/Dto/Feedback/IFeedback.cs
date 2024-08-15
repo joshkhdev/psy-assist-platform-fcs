@@ -9,6 +9,4 @@ public interface IFeedback
     DateTime? FeedbackDate { get; set; }
 
     string FeedbackText { get; set; }
-
-    int? QuestionnaireNumber { get; set; }
 }

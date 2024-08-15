@@ -11,6 +11,4 @@ public record FeedbackDto : IFeedback
     public required DateTime? FeedbackDate { get; set; }
 
     public required string FeedbackText { get; set; }
-
-    public int? QuestionnaireNumber { get; set; }
 }

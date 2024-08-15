@@ -7,6 +7,4 @@ public record CreateFeedbackRequest : ICreateFeedback
     public required string Telegram { get; set; }
 
     public required string FeedbackText { get; set; }
-
-    public int? QuestionnaireNumber { get; set; }
 }

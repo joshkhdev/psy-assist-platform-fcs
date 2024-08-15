@@ -9,6 +9,4 @@ public class Feedback : BaseEntity
     public DateTime? FeedbackDate { get; set; }
 
     public string FeedbackText { get; set; }
-
-    public int? QuestionnaireNumber { get; set; }
 }

@@ -9,6 +9,4 @@ public class FeedbackMessage
     public DateTime? FeedbackDate { get; set; }
 
     public required string FeedbackText { get; set; }
-
-    public int? QuestionnaireNumber { get; set; }
 }
