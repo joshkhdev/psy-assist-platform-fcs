@@ -17,3 +17,9 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+
+  psyassistfeedback.webapi:
+    image: ${DOCKER_REGISTRY-}psyassistfeedbackwebapi
+    build:
+      context: .
+      dockerfile: PsyAssistFeedback.WebApi/Dockerfile
