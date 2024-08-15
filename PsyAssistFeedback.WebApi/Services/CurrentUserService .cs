@@ -13,5 +13,7 @@ public class CurrentUserService : ICurrentUserService
     }
 
     public Guid UserId
-        => Guid.TryParse(_contextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier), out var id) ? id : Guid.Empty;
+        => Guid.TryParse(_contextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier), out var id) 
+            ? id 
+            : Guid.Empty;
 }

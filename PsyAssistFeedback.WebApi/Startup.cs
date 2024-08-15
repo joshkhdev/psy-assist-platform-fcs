@@ -44,6 +44,8 @@ public class Startup
             options.EnableSensitiveDataLogging();
         });
 
+        services.AddMemoryCache();
+
         services.AddRabbitMqServices(Configuration);
         services.AddTelegramBot();
     }

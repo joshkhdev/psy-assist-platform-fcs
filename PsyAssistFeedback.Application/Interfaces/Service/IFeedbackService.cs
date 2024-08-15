@@ -4,7 +4,7 @@ namespace PsyAssistFeedback.Application.Interfaces.Service;
 
 public interface IFeedbackService
 {
-    Task<IEnumerable<IFeedback>> GetFeedbacksAsync(CancellationToken cancellationToken);
+    Task<IEnumerable<IFeedback>?> GetFeedbacksAsync(CancellationToken cancellationToken);
 
     Task<IFeedback?> GetFeedbackByIdAsync(int id, CancellationToken cancellationToken);
 
