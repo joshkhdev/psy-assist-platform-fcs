@@ -1,4 +1,3 @@
-using MassTransit;
 using Microsoft.Extensions.Configuration;
 using PsyAssistFeedback.Application.Exceptions;
 using PsyAssistFeedback.Application.Interfaces.Service;
@@ -17,17 +16,14 @@ public class TelegramBotService : ITelegramBotService
     private const string InitializationErrorMessage = "Telegram bot is not initialized";
 
     private readonly IConfiguration _configuration;
-    private readonly IBus _bus;
     private readonly IFeedbackMessagesService _feedbackMessagesService;
 
     private ITelegramBotClient? _bot;
 
     public TelegramBotService(
         IConfiguration configuration, 
-        IBus bus,
         IFeedbackMessagesService feedbackMessagesService)
     {
-        _bus = bus;
         _configuration = configuration;
         _feedbackMessagesService = feedbackMessagesService;
 
