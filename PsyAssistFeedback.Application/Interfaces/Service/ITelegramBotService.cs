@@ -1,16 +1,15 @@
 ﻿using Telegram.Bot.Types;
 using Telegram.Bot;
 
-namespace PsyAssistFeedback.Application.Interfaces.Service
+namespace PsyAssistFeedback.Application.Interfaces.Service;
+
+public interface ITelegramBotService
 {
-    public interface ITelegramBotService
-    {
-        void InitializeBot();
+    void InitializeBot();
 
-        void RunBot();
+    void RunBot();
 
-        Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken);
+    Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken);
 
-        Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken);
-    }
+    Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken);
 }

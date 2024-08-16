@@ -8,7 +8,5 @@ public interface IFeedbackService
 
     Task<IFeedback?> GetFeedbackByIdAsync(int id, CancellationToken cancellationToken);
 
-    Task<IFeedback> CreateFeedbackAsync(
-        ICreateFeedback FeedbackData,
-        CancellationToken cancellationToken);
+    Task<IFeedback> CreateFeedbackAsync(ICreateFeedback FeedbackData, CancellationToken cancellationToken);
 }

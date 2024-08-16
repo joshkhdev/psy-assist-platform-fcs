@@ -1,9 +1,8 @@
-﻿namespace PsyAssistFeedback.Application.Exceptions
+﻿namespace PsyAssistFeedback.Application.Exceptions;
+
+public class TelegramBotInitializationException : Exception
 {
-    public class TelegramBotInitializationException : Exception
+    public TelegramBotInitializationException(string message) : base(message)
     {
-        public TelegramBotInitializationException(string message) : base(message)
-        {
-        }
     }
 }

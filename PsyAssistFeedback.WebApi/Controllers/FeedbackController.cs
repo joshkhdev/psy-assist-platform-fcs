@@ -19,7 +19,7 @@ public class FeedbackController : ControllerBase
     }
 
     /// <summary>
-    /// Получить список всех анкет
+    /// Получить список всех отзывов
     /// </summary>
     [HttpGet]
     public async Task<IEnumerable<FeedbackResponse>> GetAllFeedbacksAsync(CancellationToken cancellationToken)
@@ -29,7 +29,7 @@ public class FeedbackController : ControllerBase
     }
 
     /// <summary>
-    /// Получить анкету по Id
+    /// Получить отзыв по Id
     /// </summary>
     [HttpGet("{id:int}")]
     public async Task<ActionResult<FeedbackResponse>> GetFeedbackByIdAsync(int id, CancellationToken cancellationToken)
@@ -39,7 +39,7 @@ public class FeedbackController : ControllerBase
     }
 
     /// <summary>
-    /// Создать новую анкету
+    /// Создать новый отзыв
     /// </summary>
     [HttpPost]
     public async Task<IActionResult> CreateFeedbackAsync(CreateFeedbackRequest request, CancellationToken cancellationToken)

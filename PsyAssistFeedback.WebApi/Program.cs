@@ -11,7 +11,7 @@ public class Program
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .WriteTo.File(
-                $"{Environment.CurrentDirectory}/Logs/PsyAssistPlatformWebApiLog-.txt",
+                $"{Environment.CurrentDirectory}/Logs/PsyAssistPlatformFeedbackWebApiLog-.txt",
                 rollingInterval: RollingInterval.Day,
                 retainedFileCountLimit: 30
             ).CreateLogger();
