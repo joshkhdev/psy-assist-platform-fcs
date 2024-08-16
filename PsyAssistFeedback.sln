@@ -17,12 +17,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastucture", "Infrastuct
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{0369CEBC-C9AF-46A0-A908-34A3C6529814}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13216936-ADED-4373-A6CB-A3D66D0D9A54}"
-	ProjectSection(SolutionItems) = preProject
-		docker-compose.yml = docker-compose.yml
-	EndProjectSection
-EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F91C8164-04FF-4336-98F6-2938D28CEF1D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{03D88341-33B6-44D0-880F-0A8652DA47F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsyAssistFeedback.Tests", "PsyAssistFeedback.Tests\PsyAssistFeedback.Tests.csproj", "{D1E7EA00-4D35-4027-93FE-3A36DFDDBF31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +49,10 @@ Global
 		{F91C8164-04FF-4336-98F6-2938D28CEF1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F91C8164-04FF-4336-98F6-2938D28CEF1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F91C8164-04FF-4336-98F6-2938D28CEF1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1E7EA00-4D35-4027-93FE-3A36DFDDBF31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1E7EA00-4D35-4027-93FE-3A36DFDDBF31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1E7EA00-4D35-4027-93FE-3A36DFDDBF31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1E7EA00-4D35-4027-93FE-3A36DFDDBF31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +62,7 @@ Global
 		{824D6012-19AB-47C9-9AE3-12E86E652774} = {BB9F0F0C-957F-43D8-872D-F0E4CB56D7A9}
 		{6E9FF2BD-B34E-4CB7-A990-E65C16681FB2} = {BB9F0F0C-957F-43D8-872D-F0E4CB56D7A9}
 		{D766ABDA-7B0C-4E27-9D1C-0C7CB13F902A} = {C3116D20-0D1D-43CB-856B-F159FCC28AF3}
+		{D1E7EA00-4D35-4027-93FE-3A36DFDDBF31} = {03D88341-33B6-44D0-880F-0A8652DA47F2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DFADB95B-0F4B-44DC-914A-0777DAB8BDCE}
