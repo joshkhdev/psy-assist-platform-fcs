@@ -16,14 +16,10 @@ public class FeedbackMessagesService : IFeedbackMessagesService
 
     public async Task PublishFeedbackAsync(Message message, CancellationToken cancellationToken)
     {
-        if (message.Text == null 
-            || message?.From?.Username == null)
-            return;
-
         var request = new FeedbackMessage
         {
-            Telegram = message.From.Username,
-            FeedbackText = message.Text
+            Telegram = message.From!.Username!,
+            FeedbackText = message.Text!
         };
 
         await _bus.Publish(request, cancellationToken);

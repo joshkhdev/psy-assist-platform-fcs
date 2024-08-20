@@ -16,7 +16,7 @@ public class FeedbackService : IFeedbackService
     private readonly IMemoryCache _memoryCache;
 
     private const string FeedbackNotFoundMessage = "Feedback with Id [{0}] not found";
-    private const string EmptyTelegramMessage = "Telegram cannot be empty";
+    private const string EmptyUsernameMessage = "Username cannot be empty";
     private const string EmptyTextMessage = "Feedback text cannot be null or empty";
     private const string FeedbackCacheName = "Feedback_{0}";
 
@@ -63,7 +63,7 @@ public class FeedbackService : IFeedbackService
     public async Task<IFeedback> CreateFeedbackAsync(ICreateFeedback feedbackData, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(feedbackData.Telegram))
-            throw new IncorrectDataException(EmptyTelegramMessage);
+            throw new IncorrectDataException(EmptyUsernameMessage);
 
         if (string.IsNullOrWhiteSpace(feedbackData.FeedbackText))
             throw new IncorrectDataException(EmptyTextMessage);
@@ -71,7 +71,7 @@ public class FeedbackService : IFeedbackService
         _memoryCache.Remove(string.Format(FeedbackCacheName, "All"));
 
         var createdFeedback = _applicationMapper.Map<Feedback>(feedbackData);
-        createdFeedback.FeedbackDate = DateTime.Now.ToUniversalTime();
+        createdFeedback.FeedbackDate = DateTime.UtcNow;
 
         return _applicationMapper.Map<FeedbackDto>(
             await _feedbackRepository.AddAsync(createdFeedback, cancellationToken));

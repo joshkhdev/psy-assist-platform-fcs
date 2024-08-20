@@ -10,10 +10,12 @@ namespace PsyAssistFeedback.Application.Services;
 
 public class TelegramBotService : ITelegramBotService
 {
-    private const string HelloMessage = "Добрый день! Чтобы оставить отзыв, введите, пожалуйста, в одном сообщении номер заявки (не обязательно, если ваш никнейм в Телеграме совпадает с указанным в анкете) и текст отзыва...";
-    private const string TelergamSuccessMesage = "Спасибо, {0}, Ваш отзыв отправлен!";
+    private const string HelloMessage = "Р”РѕР±СЂС‹Р№ РґРµРЅСЊ! Р§С‚РѕР±С‹ РѕСЃС‚Р°РІРёС‚СЊ РѕС‚Р·С‹РІ, РІРІРµРґРёС‚Рµ, РїРѕР¶Р°Р»СѓР№СЃС‚Р°, РІ РѕРґРЅРѕРј СЃРѕРѕР±С‰РµРЅРёРё РЅРѕРјРµСЂ Р·Р°СЏРІРєРё (РЅРµ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ, РµСЃР»Рё РІР°С€ РЅРёРєРЅРµР№Рј РІ РўРµР»РµРіСЂР°РјРµ СЃРѕРІРїР°РґР°РµС‚ СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РІ Р°РЅРєРµС‚Рµ) Рё С‚РµРєСЃС‚ РѕС‚Р·С‹РІР°...";
+    private const string TelergamSuccessMesage = "РЎРїР°СЃРёР±Рѕ, {0}, Р’Р°С€ РѕС‚Р·С‹РІ РѕС‚РїСЂР°РІР»РµРЅ!";
     private const string EmptyTokenMessage = "Telegram bot token is empty or does not exist in user secrets";
     private const string InitializationErrorMessage = "Telegram bot is not initialized";
+    private const string EmptyUsernameMessage = "Username cannot be empty";
+    private const string EmptyTextMessage = "Feedback text cannot be null or empty";
 
     private readonly IConfiguration _configuration;
     private readonly IFeedbackMessagesService _feedbackMessagesService;
@@ -47,8 +49,7 @@ public class TelegramBotService : ITelegramBotService
 
         Log.Information($"Start telegram bot {_bot.GetMeAsync().Result.FirstName}");
 
-        var cts = new CancellationTokenSource();
-        var cancellationToken = cts.Token;
+        var cancellationToken = new CancellationTokenSource().Token;
         var receiverOptions = new ReceiverOptions
         {
             AllowedUpdates = { }
@@ -68,9 +69,10 @@ public class TelegramBotService : ITelegramBotService
             return;
 
         var message = update.Message;
-        if (string.IsNullOrEmpty(message?.Text) 
-            || string.IsNullOrEmpty(message?.From?.Username))
-            return;
+        if (string.IsNullOrWhiteSpace(message?.Text))
+            throw new IncorrectDataException(EmptyUsernameMessage);
+        if (string.IsNullOrWhiteSpace(message?.From?.Username))
+            throw new IncorrectDataException(EmptyTextMessage);
 
         if (message.Text.Equals("/start", StringComparison.CurrentCultureIgnoreCase))
         {
