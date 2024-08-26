@@ -6,6 +6,17 @@ WORKDIR /app
 EXPOSE 7452
 EXPOSE 7453
 
+FROM ubuntu:16.04
+ENV DEBIAN_FRONTEND noninteractive.
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt-get install -y language-pack-ru
+ENV LANGUAGE ru_RU.UTF-8
+ENV LANG ru_RU.UTF-8
+ENV LC_ALL ru_RU.UTF-8
+RUN locale-gen ru_RU.UTF-8 && dpkg-reconfigure locales
+ENTRYPOINT /bin/bash
+
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src

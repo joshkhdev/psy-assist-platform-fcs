@@ -1,25 +1,39 @@
 version: '3.9'
 
 services:
-  db:
+   #PsyAssistPlatform Rabbit
+  psy-assist-platform-rabbit:
+    image: "rabbitmq:3.13-management"
+    container_name: 'psy-assist-platform-rabbit'
+    ports:
+      - 5672:5672
+      - 15672:15672
+  
+  #PsyAssistPlatform Db
+  psy-assist-platform-db:
     image: postgres
+    container_name: 'psy-assist-platform-db'
     environment:
       POSTGRES_DB: psyAssistPlatformFcs
       POSTGRES_USER: psyadmin
       POSTGRES_PASSWORD: 12345
     ports:
       - "5433:5432"
-    restart: no
+    restart: unless-stopped
 
-  rabbitmq-manager:
-    image: "rabbitmq:3.13-management"
-    container_name: 'rabbitmq-manager'
-    ports:
-      - 5672:5672
-      - 15672:15672
-
+  #PsyAssistPlatform
   psyassistfeedback.webapi:
     image: ${DOCKER_REGISTRY-}psyassistfeedbackwebapi
     build:
       context: .
       dockerfile: PsyAssistFeedback.WebApi/Dockerfile
+    container_name: 'psy-assist-platform-feedback'
+    restart: unless-stopped
+    ports:
+      - "7154:7155"
+    environment:
+      - "ASPNETCORE_ENVIRONMENT=Development"
+      - "ConnectionStrings__PsyAssistPlatformDbFcs=Host=psy-assist-platform-db;Database=psyAssistPlatformFcs;Username=psyadmin;Password=12345"          
+    depends_on: 
+      - psy-assist-platform-rabbit
+      - psy-assist-platform-db
