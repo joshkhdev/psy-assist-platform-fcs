@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  psyassistfeedback.webapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=7452
+      - ASPNETCORE_HTTPS_PORTS=7453
+    ports:
+      - "7154"
+      - "7155"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
